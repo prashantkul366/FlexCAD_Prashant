@@ -371,10 +371,10 @@ def conditional_sample(args):
         else:
             outputs.extend(gen_strs)
         print(f"Generated {len(outputs)}/{len(prompts)}samples.")
-        with open(os.path.dirname(args.model_path)+'conditional_samples_'+str(args.num_samples)+'_'+args.mask_type+'_mask.json', "w") as f:
+        with open(os.path.dirname(args.model_path)+'/conditional_samples_'+str(args.num_samples)+'_'+args.mask_type+'_mask.json', "w") as f:
             for prompt, output, original in zip(prompts, outputs, originals):
                 f.write(json.dumps({"prompt": prompt, "output": output, "original":original}) + "\n")
-    with open(os.path.dirname(args.model_path)+'conditional_samples_'+str(args.num_samples)+'_'+args.mask_type+'_mask.json', "w") as f:
+    with open(os.path.dirname(args.model_path)+'/conditional_samples_'+str(args.num_samples)+'_'+args.mask_type+'_mask.json', "w") as f:
         for prompt, output, original in zip(prompts, outputs, originals):
             f.write(json.dumps({"prompt": prompt, "output": output, "original":original}) + "\n")
 
