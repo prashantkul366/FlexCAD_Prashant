@@ -151,12 +151,27 @@ def infill_type(input_str, mask_type):
 
 def prepare_model_and_tokenizer(args):
     if args.model_name=="8B":
+        # model_id = "meta-llama/Meta-Llama-3-8B"
+        # print(f"Model size: {model_id}")
+        # pipeline = transformers.pipeline("text2text-generation",
+        #                                  model=model_id, model_kwargs={"torch_dtype": torch.bfloat16}, device_map='auto')
+        # tokenizer = pipeline.tokenizer
+        # model = pipeline.model
+
         model_id = "meta-llama/Meta-Llama-3-8B"
         print(f"Model size: {model_id}")
-        pipeline = transformers.pipeline("text2text-generation",
-                                         model=model_id, model_kwargs={"torch_dtype": torch.bfloat16}, device_map='auto')
-        tokenizer = pipeline.tokenizer
-        model = pipeline.model
+        from transformers import AutoTokenizer, AutoModelForCausalLM
+        tokenizer = AutoTokenizer.from_pretrained(
+            model_id,
+            model_max_length=MAX_LENGTH,
+            padding_side="right",
+            use_fast=False,
+        )
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            torch_dtype=torch.bfloat16,
+            device_map="auto",
+        )
     else:
         llama_options = args.model_name.split("-")
         is_chat = len(llama_options) == 2
